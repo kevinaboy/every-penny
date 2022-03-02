@@ -5,3 +5,11 @@ window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndex
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || { READ_WRITE: "readwrite" }; // This line should only be needed if it is needed to support the object's constants for older browsers
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 // (Mozilla has never prefixed these objects, so we don't need window.mozIDB*)
+// Let us open our database
+var request = window.indexedDB.open("MyTestDatabase", 3);
+request.onerror = event => {
+  // Do something with request.errorCode!
+};
+request.onsuccess = event => {
+  // Do something with request.result!
+};
