@@ -1,15 +1,39 @@
-// In the following line, you should include the prefixes of implementations you want to test.
-window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-// DON'T use "var indexedDB = ..." if you're not in a function.
-// Moreover, you may need references to some window.IDB* objects:
-window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || { READ_WRITE: "readwrite" }; // This line should only be needed if it is needed to support the object's constants for older browsers
-window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-// (Mozilla has never prefixed these objects, so we don't need window.mozIDB*)
-// Let us open our database
-var request = window.indexedDB.open("MyTestDatabase", 3);
-request.onerror = event => {
-  // Do something with request.errorCode!
+// create variable to hold db connection
+let db;
+// establish a connection to IndexedDB database called 'pizza_hunt' and set it to version 1
+const request = indexedDB.open('EveryPenny', 1);
+
+// this event will emit if the database version changes (nonexistant to version 1, v1 to v2, etc.)
+request.onupgradeneeded = function (event) {
+  // save a reference to the database 
+  const db = event.target.result;
+  // create an object store (table) called `new_pizza`, set it to have an auto incrementing primary key of sorts 
+  db.createObjectStore('new_transaction', { autoIncrement: true });
 };
-request.onsuccess = event => {
-  // Do something with request.result!
+// upon a successful 
+request.onsuccess = function (event) {
+  // when db is successfully created with its object store (from onupgradedneeded event above) or simply established a connection, save reference to db in global variable
+  db = event.target.result;
+
+  // check if app is online, if yes run uploadPizza() function to send all local db data to api
+  if (navigator.onLine) {
+    // we haven't created this yet, but we will soon, so let's comment it out for now
+    // uploadPizza();
+  }
 };
+
+request.onerror = function (event) {
+  // log error here
+  console.log(event.target.errorCode);
+};
+// This function will be executed if we attempt to submit a new transaction and there's no internet connection
+function saveRecord(record) {
+  // open a new transaction with the database with read and write permissions 
+  const transaction = db.transaction(['new_pizza'], 'readwrite');
+
+  // access the object store for `new_transaction`
+  const transactionObjectStore = transaction.objectStore('new_transaction');
+
+  // add transaction with add method
+  transactionObjectStore.add(record);
+}
