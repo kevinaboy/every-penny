@@ -13,7 +13,7 @@ This offline functionality is achieved through service workers, as seen in the s
 ## Future Features
 - Under construction:
   - You will be able to add expenses and deposits to your budget along with the ability to update the total once you're brought back online
-  - I attempted to deploy the app using Heroku but I ran into several errors that I could not resolve:
+  - I attempted to deploy the app using Heroku (https://frozen-plateau-41665.herokuapp.com/) but I ran into several errors that I could not resolve:
 ![WebsiteError](public/images/heroku-website-error.png)
 ![Error](public/images/heroku-command-line-error.png)
   - However, I already:
