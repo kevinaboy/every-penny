@@ -1,3 +1,5 @@
+// Code adopted from Module 18: NoSQL, Lesson 4, and modified accordingly
+
 // create variable to hold db connection
 let db;
 // establish a connection to IndexedDB database called 'pizza_hunt' and set it to version 1
